@@ -27,6 +27,7 @@ ___
     // Start or Resume a session
     session_start();
     // Initialize an instance
+    use Rotexsoft\CSRF;
     $csrf = new CSRF();
 
     // If form was submitted

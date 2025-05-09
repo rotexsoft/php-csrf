@@ -206,7 +206,7 @@ class CSRF {
      * @param  string $context Name of the form
      * @return boolean         Valid or not
      */
-    public function validate(string $context = '', bool $hash = null): bool {
+    public function validate(string $context = '', string|null $hash = null): bool {
         
         // If hash was not given, find hash
         if (is_null($hash)) {
@@ -221,7 +221,7 @@ class CSRF {
 
         // Check in the hash list
         for ($i = count($this->hashes) - 1; $i >= 0; $i--) {
-            
+
             /** @psalm-suppress MixedMethodCall */
             if ($this->hashes[$i]->verify($hash, $context)) {
                 array_splice($this->hashes, $i, 1);

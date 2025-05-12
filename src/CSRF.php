@@ -36,13 +36,15 @@ class CSRF {
 
     /**
      * Initialize a CSRF instance
-     * @param string  $name Session name
+     * @param string  $keyNameInSession the key in $_SESSION whose corresponding 
+     *                                  value is the CSRF data associated with
+     *                                  this class
      * @param string  $inputName Form name
      * @param integer $hashTime2Live Default seconds hash before expiration
      * @param integer $hashSize      Default hash size in chars
      */
     public function __construct(
-        protected string $name = 'csrf-lib',
+        protected string $keyNameInSession = 'csrf-lib',
         protected string $inputName = 'key-awesome',
         protected int $hashTime2Live = 0,
         protected int $hashSize = 64
@@ -239,14 +241,14 @@ class CSRF {
         
         $this->hashes = [];
         // If there are hashes on the session
-        if (isset($_SESSION[$this->name])) {
+        if (isset($_SESSION[$this->keyNameInSession])) {
             
             // Load session hashes
             /** 
              * @psalm-suppress MixedArgument
              * @psalm-suppress MixedAssignment
              */
-            $session_hashes = unserialize($_SESSION[$this->name]);
+            $session_hashes = unserialize($_SESSION[$this->keyNameInSession]);
             // Ignore expired
             /** @psalm-suppress MixedArgument */
             for ($i = count($session_hashes) - 1; $i >= 0; $i--) {
@@ -278,7 +280,7 @@ class CSRF {
      */
     protected function save(): static {
         
-        $_SESSION[$this->name] = serialize($this->hashes);
+        $_SESSION[$this->keyNameInSession] = serialize($this->hashes);
         
         return $this;
     }

@@ -80,11 +80,10 @@ class CSRF {
 
     /**
      * Get the hashes of a context
-     * @param  string  $context    the group to clean
-     * @param  integer $max_hashes max hashes to get
-     * @return array               array of hashes as strings
+     * @param  string  $context the group to clean
+     * @return array            array of hashes as strings
      */
-    public function getHashes(string $context = '', int $max_hashes = -1): array {
+    public function getHashes(string $context = ''): array {
         
         $len = count($this->hashes);
         $hashes = [];
@@ -106,7 +105,7 @@ class CSRF {
     /**
      * Clear the hashes of a context
      * @param  string  $context    the group to clean
-     * @param  integer $max_hashes ignore first x hashes
+     * @param  integer $max_hashes preserve the most recent $max_hashes hashes
      * @return integer             number of deleted hashes
      */
     public function clearHashes(string $context = '', int $max_hashes = 0): int {
@@ -258,7 +257,7 @@ class CSRF {
                  * @psalm-suppress MixedMethodCall
                  * @psalm-suppress MixedArrayAccess
                  */
-                if ($session_hashes[$i]->hasExpire()) {
+                if ($session_hashes[$i]->hasExpired()) {
                     break;
                 }
 

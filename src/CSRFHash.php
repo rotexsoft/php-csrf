@@ -63,7 +63,7 @@ class CSRFHash {
     /**
      * Check if hash has expired
      */
-    public function hasExpire(): bool {
+    public function hasExpired(): bool {
         
         return $this->expire !== 0 && $this->expire <= time();
     }
@@ -73,7 +73,7 @@ class CSRFHash {
      */
     public function verify(string $hash, string $context = ''): bool {
         
-        return strcmp($context, $this->context) === 0 && !$this->hasExpire() && hash_equals($hash, $this->hash);
+        return strcmp($context, $this->context) === 0 && !$this->hasExpired() && hash_equals($hash, $this->hash);
     }
 
     /**
